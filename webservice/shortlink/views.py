@@ -14,29 +14,32 @@ def main(request):
             form_source = SourceLinkForm(request.POST)
             if 'form_short' in request.POST:
                 if form_short.is_valid():
-
                     try:
+                        print("Try option")
                         source_url = Link.objects.get(source_url=form_short['source_url'].value())
-                        print(source_url)
                         short_url = source_url.get_short_url()
-                        print(short_url)
+                        print("Try option_21")
                         return render(request, 'shortlink/index.html',
                         {'short_url': short_url,
                          'form_short': form_short,
                          'form_source': form_source,})
                     # If there is no short url, create it
-                    except:
+                    except Link.DoesNotExist:
+                        print("Except option")
                         # Check if source url format is OK
                         source_url = form_short['source_url'].value()
+                        print("Line_30")
                         if shortener.check_url(source_url):
+                            print("Before we get here_line31")
                             short_url = shortener.generate_random_link()
                             # Check that random generated value doesn't exists already
-                            while not Link.objects.get(short_url=short_url).exists():
-                                short_url = shortener.generate_random_link()
-                                short_url = short_url.split('/')[1]
-                                post = form_short.save(commit=False)
-                                post.short_url = short_url
-                                post.save()
+                            print("Before we get here_line34")
+                            print("Before we get here_line38")
+                            short_url = shortener.generate_random_link()
+                            url = form_short.save(commit=False)
+                            url.short_url = short_url
+                            url.save()
+                            print("URL was saved!")
                             return render(request, 'shortlink/index.html',
                             {'short_url': short_url,
                              'form_short': form_short,
