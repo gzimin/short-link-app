@@ -30,17 +30,17 @@
         {% endif %}
         {% if short_url %}
         <div class="alert alert-success">
-          <strong>Success!</strong>Your short link - {{ short_url }}
+          <strong>Success!</strong>Your short link - <a href = "{{ short_url }}"> {{ short_url }}</a>(Click it)
         </div>
         {% endif %}
         <hr>
         <div>
-          <h3> If you want to get back your source url, please input short link here:</h3>
+          <h3> If you want to get back your source url, please input short link here(part after slash, example "GgnrF"):</h3>
           <form method="post">{% csrf_token %}
             <div class="input-group input-group-lg">
                 {{ form_source.as_p }}
             </div>
-          <button name="form_source" type="submit" class="save btn btn-secondary btn-lg">Get Back!</button>
+          <button name="form_source" type="submit" class="save btn btn-secondary btn-lg">Get source link</button>
         </div>
         {% if source_url %}
         <div class="alert alert-success">

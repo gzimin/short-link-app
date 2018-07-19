@@ -19,7 +19,7 @@ from django.conf.urls import include, url
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('adminpanel/', admin.site.urls),
     path('', include('shortlink.urls'))
 
 ]

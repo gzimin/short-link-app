@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ShortLinkForm, SourceLinkForm
 from . import shortener
 from  shortlink.models import Link
+from django.http import Http404, HttpRequest, HttpResponseRedirect
+from django.contrib.sites.shortcuts import get_current_site
 
 # Create your views here.
 def main(request):
@@ -28,9 +30,13 @@ def main(request):
                         source_url = form_short['source_url'].value()
                         if shortener.check_url(source_url):
                             short_url = shortener.generate_random_link()
-                            post = form_short.save(commit=False)
-                            post.short_url = short_url
-                            post.save()
+                            # Check that random generated value doesn't exists already
+                            while not Link.objects.get(short_url=short_url).exists():
+                                short_url = shortener.generate_random_link()
+                                short_url = short_url.split('/')[1]
+                                post = form_short.save(commit=False)
+                                post.short_url = short_url
+                                post.save()
                             return render(request, 'shortlink/index.html',
                             {'short_url': short_url,
                              'form_short': form_short,
@@ -62,3 +68,12 @@ def main(request):
         return render(request, 'shortlink/index.html',
             {'form_short': form_short,
             'form_source': form_source})
+
+def link(request):
+    try:
+        data = request.get_full_path()[1:]
+        curr_object = Link.objects.get(short_url=data)
+        source_link = str(curr_object)
+        return redirect(source_link)
+    except:
+        raise Http404("Page doesn't exists")

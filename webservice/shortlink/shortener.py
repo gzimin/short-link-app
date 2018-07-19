@@ -2,9 +2,9 @@ import random
 import string
 
 
-def generate_random_link():
+def generate_random_link(hostname):
     link_len = 5
-    return 'sho.rt/' + ''.join(random.choice(string.ascii_uppercase +
+    return ''.join(random.choice(string.ascii_uppercase +
                                              string.ascii_lowercase +
                                              string.digits) for _ in range(link_len))
 
