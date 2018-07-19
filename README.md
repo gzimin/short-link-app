@@ -1,6 +1,6 @@
 # short-link-app
 This is short link web service.
-To work with is you need to follow this steps:
+To work with it you need to follow this simple steps:
 1. Clone repository
 2. Set virtual enviroment for application
   To make this, run `$ python3 -m venv myvenv`
@@ -18,7 +18,7 @@ Django version 2.0.7, using settings 'webservice.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
-6. All work is done, now you can use this service.
+6. All work is done, now you can use this web service.
 ![alt text][example]
 
 
