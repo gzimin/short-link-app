@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% load static %}
+<html>
+    <head>
+      <title>Short-link Web Service</title>
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+      <div class="jumbotron">
+        <h1>URL shortener</h1>
+        <p>Here you can convert your big clumsy URL to great and short URL</p>
+      </div>
+      <div class ="main-content">
+        <div class="inputfield">
+          <h3> If you want to get short url, please input your link here("http://" or "https://" required):</h3>
+          <form method="post">{% csrf_token %}
+            <div class="input-group input-group-lg">
+                {{ form_short.as_p }}
+            </div>
+          <button name="form_short" type="submit" class="save btn btn-secondary btn-lg">Convert!</button>
+      </form>
+        </div>
+        {%if err_msg %}
+        <div class="alert alert-danger">
+          <strong>Error!</strong> Your link has wrong format, try again.
+        </div>
+        {% endif %}
+        {% if short_url %}
+        <div class="alert alert-success">
+          <strong>Success!</strong>Your short link - {{ short_url }}
+        </div>
+        {% endif %}
+        <hr>
+        <div>
+          <h3> If you want to get back your source url, please input short link here:</h3>
+          <form method="post">{% csrf_token %}
+            <div class="input-group input-group-lg">
+                {{ form_source.as_p }}
+            </div>
+          <button name="form_source" type="submit" class="save btn btn-secondary btn-lg">Get Back!</button>
+        </div>
+        {% if source_url %}
+        <div class="alert alert-success">
+          <strong>Success! </strong>Your source url - <a href = "{{ source_url }}">{{ source_url }} </a>
+        </div>
+        {% endif %}
+        {% if no_url %}
+        <div class="alert alert-warning">
+          <strong>Problem </strong> Sorry, we don't have short form of this url, do it now!
+        </div>
+        {% endif %}
+    </div>
+    </body>
+</html>
